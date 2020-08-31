@@ -5,7 +5,21 @@
 }
 
 .container{
+    width: 300px;
     margin: 20px auto;
     display: flex;
+    flex-direction: column;
+    justify-content: space-around;
     align-items: center;
+
+}
+#cima{
+    display: flex;
+}
+ul{
+    display: block;
+}
+
+li{
+    list-style-type: none;
 }

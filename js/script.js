@@ -32,5 +32,21 @@ Link API: https://flynn.boolean.careers/exercises/api/holidays?year=2018&month=0
 
 $(document).ready(function(){
     var dataCorrente = moment('2018-01-01');
-    $('h1.month').html(dataCorrente.format('MMMM')+ ' ' +dataCorrente.format('YYYY'));
+    var month = dataCorrente.format('MMMM');
+    $('h1.month').html(month + ' ' +dataCorrente.format('YYYY'));
+    var daysMonth = dataCorrente.daysInMonth();
+
+    for (var i = 1; i <= daysMonth; i++) {
+        var source = $("#day-template").html();
+        var template = Handlebars.compile(source);
+
+        var context = {
+            day: i,
+            month : month
+        };
+        var html = template(context);
+
+        $('.month-list').append(html);
+
+    }
 });

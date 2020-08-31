@@ -12,11 +12,13 @@
     </head>
     <body>
         <div class="container">
-            <button id="prev" type="button" name="button"><<</button>
-            <h1 class="month" data-this-date="2018-01-01"></h1>
-            <button id="next" type="button" name="button">>></button>
-            <ul class="month-list">
-            </ul>
+            <div id="cima">
+                <button id="prev" type="button" name="button"><<</button>
+                <h1 class="month" data-this-date="2018-01-01"></h1>
+                <button id="next" type="button" name="button">>></button>
+            </div>
+            <ul class="month-list"></ul>
+
         </div>
         <script id ="day-template" type="text/x-handelbars-templates">
             <li data-complete-date="{{completeData}}">{{day}} {{month}}</li>
