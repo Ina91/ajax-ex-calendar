@@ -1,28 +1,31 @@
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-    <head>
-    <meta charset="utf-8">
-    <meta charset="utf-8">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://momentjs.com/downloads/moment.min.js" charset="utf-8"></script>
-    <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-        <title>ajax-ex-calendar</title>
-    </head>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="css/style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>
+	<script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<title>ajax-ex-calendar</title>
+</head>
     <body>
         <div class="container">
-            <div id="cima">
+            <div id="header">
                 <button id="prev" type="button" name="button"><<</button>
-                <h1 class="month" data-this-date="2018-01-01"></h1>
+                <h1 class="month" data-this-date="2018-01-01"></h1>  <!--attributo data type utile per manipolarlo in java -->
                 <button id="next" type="button" name="button">>></button>
             </div>
             <ul class="month-list"></ul>
 
         </div>
-        <script id ="day-template" type="text/x-handelbars-templates">
-            <li data-complete-date="{{completeData}}">{{day}} {{month}}</li>
+        <script id="day-template" type="text/x-handlebars-template">
+          <li data-complete-date="{{completeData}}">
+              {{day}}  {{month}}
+          </li>
         </script>
+
         <script src="js/script.js" charset="utf-8"></script>
     </body>
 </html>

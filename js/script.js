@@ -11,7 +11,7 @@ Controllare quanti giorni ha il mese scelto formando così una lista
 Chiedere all’API quali sono le festività per il mese scelto
 Evidenziare le festività nella lista
 
-Link API: https://flynn.boolean.careers/exercises/api/holidays?year=2018&month=0*/
+Link API: c*/
 
 /*
 {
@@ -31,22 +31,93 @@ Link API: https://flynn.boolean.careers/exercises/api/holidays?year=2018&month=0
 
 
 $(document).ready(function(){
-    var dataCorrente = moment('2018-01-01');
-    var month = dataCorrente.format('MMMM');
-    $('h1.month').html(month + ' ' +dataCorrente.format('YYYY'));
-    var daysMonth = dataCorrente.daysInMonth();
+    var dataCorrente = moment($('h1.month').attr('data-this-date'));        // unica variabile globale
+      inserisciData(dataCorrente);
+      inserisciFesta(dataCorrente);
 
-    for (var i = 1; i <= daysMonth; i++) {
-        var source = $("#day-template").html();
-        var template = Handlebars.compile(source);
+      $('button#next').click(function(){
+          next(dataCorrente);
+      });
+      $('button#prev').click(function(){
+          prev(dataCorrente);
+      });
 
-        var context = {
-            day: i,
-            month : month
-        };
-        var html = template(context);
+//****FUNZIONI****
+    function addzero(n){
+        if(n<10){
+            return '0' + n;
+        }
+        return n;
+    }
 
-        $('.month-list').append(html);
 
+    function inserisciData(data){
+        $('ul.month-list').empty();                             // svuoto l'elenco ul prima di riempirlo
+
+        var giorniTotali = data.daysInMonth();                 // calcolo i giorni totali in un mese
+
+        var meseParola = data.format('MMMM');                  // memorizzo in una variabile il nome del mese
+        var anno = data.year();                               // memorizzo in una variabile l'anno
+
+        $('h1.month').html(meseParola + ' ' + anno);          // implemento l'h1 con mese e anno
+
+        for (var i = 1; i <= giorniTotali; i++){             // ciclo tutti i giorni del mese
+            var source = $("#day-template").html();
+            var template = Handlebars.compile(source);
+
+            var context = {
+                day: addzero(i),
+                month: meseParola,
+                completeData: anno + '-' + data.format('MM') + '-' + addzero(i)
+            };
+            var html = template(context);
+
+            $('.month-list').append(html);
+        }
+    }
+
+    function inserisciFesta(data){
+        $.ajax(
+            {
+                url: 'https://flynn.boolean.careers/exercises/api/holidays',
+                method:'GET',
+                data:{
+                    year: data.year(),
+                    month: data.month()
+                },
+                success: function(risposta){
+                    for (var i = 0; i < risposta.response.length; i++){
+                        var elemento = $('li[data-complete-date="' + risposta.response[i].date + '"]');
+                        elemento.addClass('festività');
+                        elemento.append(' - ' + risposta.response[i].name);
+                        console.log(elemento);
+                    }
+
+                },
+                error: function(){
+                    alert('Si è verificato un errore');
+                }
+            }
+        );
+    }
+
+    function next(data){
+        if (data.month() == 11){
+            alert('Non puoi proseguire');
+        } else {
+            data.add(1, 'months');
+            inserisciData(data);
+            inserisciFesta(data);
+        }
+    }
+
+    function prev(data){
+        if (data.month() == 0){
+            alert('Non puoi proseguire');
+        } else {
+            data.subtract(1, 'months');
+            inserisciData(data);
+            inserisciFesta(data);
+        }
     }
 });
